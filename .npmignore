@@ -1,0 +1,6 @@
+.idea/
+coverage/
+docs/
+typings/
+*.yml
+*.ts

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es3",
+    "outDir": "built",
+    "sourceMap": true,
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules", "docs", "coverage", "typings", "built"
+  ]
+}
