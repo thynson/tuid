@@ -1,12 +1,15 @@
 {
   "name": "tuid",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Timed Uniqe Identifier",
   "main": "built/index.js",
   "typings": "built/index.d.ts",
   "keywords": [
     "UUID"
   ],
+  "scripts": {
+    "prepublish": "typings install && tsc"
+  },
   "author": "LAN Xingcan",
   "license": "ISC",
   "devDependencies": {
@@ -15,5 +18,8 @@
     "mocha": "^3.0.2",
     "typescript": "^1.8.10",
     "typings": "^1.3.2"
+  },
+  "dependencies": {
+    "bluebird": "*"
   }
 }
