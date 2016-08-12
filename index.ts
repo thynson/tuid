@@ -1,14 +1,16 @@
 /// <reference path="./typings/index.d.ts" />
 import * as crypto from 'crypto';
 import * as Promise from 'bluebird';
+require('source-map-support').install();
 
 const regexp = /(.{8})(.{4})(.{4})(.{4})(.{12})/;
 const VERSION = 0xF0000000;
-const MILLISECONDS_SINCE_GREGORIAN_EPOCH = 12219292800000;
-const MAX_ID_PER_MILLISECONDS = 655360000 ;
+const SECONDS_SINCE_GREGORIAN_EPOCH = 12219292800;
+const MAX_ID_PER_MILLISECONDS = 655360000;
 
 export class Generator {
-    private counter = 0;
+    private counter: number;
+    private counterBegin: number;
     private node: Buffer;
     private lastTimestamp: number;
 
@@ -18,67 +20,63 @@ export class Generator {
         else
             this.node = crypto.pseudoRandomBytes(6);
         this.lastTimestamp = 0;
+        this.counter = 0;
+        this.counterBegin = MAX_ID_PER_MILLISECONDS - 1;
     }
 
     generateSync(): Identifier{
-        let counter = this.counter++;
-        let milliseconds = Date.now() + MILLISECONDS_SINCE_GREGORIAN_EPOCH;
-        if (counter == MAX_ID_PER_MILLISECONDS) {
-            if (milliseconds == this.lastTimestamp)
+        let milliseconds = Date.now();
+
+        if (milliseconds == this.lastTimestamp) {
+            if (this.counter == MAX_ID_PER_MILLISECONDS)
                 throw new Error('Too many identifier generated');
-            else
-                this.counter = 0;
         } else {
-            this.counter &= 0xFFFF;
+            this.counter = 0;
         }
         this.lastTimestamp = milliseconds;
-        return new Identifier(milliseconds, counter >>> 16, counter & 0xFFFF, this.node);
+
+        let counter = this.counter++;
+
+        let nanoseconds = milliseconds % 1000;
+        let seconds = (milliseconds - nanoseconds) / 1000 + SECONDS_SINCE_GREGORIAN_EPOCH;
+        nanoseconds *= 10000;
+        nanoseconds += counter >>> 16;
+        counter &= 0xFFFF;
+
+        return new Identifier(seconds, nanoseconds, counter, this.node);
     }
 
 
     generate(): Promise<Identifier> {
         let generation = done => {
-
-            let counter = this.counter ++;
-            let milliseconds = Date.now() + MILLISECONDS_SINCE_GREGORIAN_EPOCH;
-            if (counter == MAX_ID_PER_MILLISECONDS) {
-                if (milliseconds == this.lastTimestamp && counter == MAX_ID_PER_MILLISECONDS)
-                    return setImmediate(generation);
-                else
-                    this.counter = 0;
+            try {
+                var result = this.generateSync();
+            } catch(e) {
+                return setImmediate(generation.bind(this, done));
             }
-            this.lastTimestamp = milliseconds;
-            done(new Identifier(milliseconds, 0, this.counter++, this.node));
+            done(result);
         };
         return new Promise<Identifier>(generation);
     }
 }
-//
-// Timestamp(ms): 48bit
-// Version  : 4bit
-// Counter  : 28bit
-// Node     :  48bit
+
 export class Identifier {
     private value: Buffer;
 
-    /**
-     *
-     * @param milliseconds
-     * @param nanoseconds
-     * @param counter
-     * @param node
-     */
-    constructor (milliseconds: number, nanoseconds: number, counter: number, node: Buffer) {
-        let timestamp = milliseconds & 0xFFFFFFFF;
-        timestamp *= 10000;
-        timestamp += nanoseconds;
+    constructor (seconds: number, chns: number, counter: number, node: Buffer) {
+
+        let v = seconds % 0x10000000;
+        let u = (seconds - v) / 0x10000000;
+        let w = chns;
+        let n = (v * 10000000 + w) % 0x10000000;
+        let m = (v * 10000000 + w - n) / 0x10000000;
+
+        let high = m + u*10000000;
+        let low = n;
         this.value = new Buffer(16);
-        let timestampHigh = timestamp / 0x100000000;
-        timestamp = (timestamp & 0xFFFFFFFF) >>> 0;
-        this.value.writeUInt32BE(timestampHigh, 0); // High 32bit
-        this.value.writeUInt16BE((timestamp >>> 12) & 0xFFFF, 4); //Middle 16bit
-        let timestampLow = timestamp & 0xFFF;   //Low 12bit
-        this.value.writeUInt32BE((VERSION + (timestampLow << 12) + (counter & 0xFFFF)), 6);
+        this.value.writeUInt32BE(high, 0); // High 32bit
+        this.value.writeUInt16BE(low >>> 12, 4); //Middle 16bit
+        this.value.writeUInt32BE((VERSION | ((low & 0xFFF)<< 16) | counter) >>> 0, 6);
         if (node == null || node.length < 6)
             node = crypto.pseudoRandomBytes(6);
         node.copy(this.value, 10, 0, 6);

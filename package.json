@@ -8,15 +8,18 @@
     "UUID"
   ],
   "scripts": {
-    "prepublish": "typings install && tsc"
+    "prepublish": "typings install && tsc",
+    "test": "istanbul cover -e .ts  -x \"*.d.ts\" -x \"*.spec.ts\" node_modules/.bin/_mocha -- --compilers ts:ts-node/register test/*.ts",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "LAN Xingcan",
   "license": "ISC",
   "devDependencies": {
     "coveralls": "^2.11.12",
-    "istanbul": "^0.4.4",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.0.2",
-    "typescript": "^1.8.10",
+    "ts-node": "^1.2.2",
+    "typescript": "^2.0.0",
     "typings": "^1.3.2"
   },
   "dependencies": {
