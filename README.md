@@ -1,5 +1,8 @@
 # Timed Unique Identifier
 
+[![Build Status](https://travis-ci.org/thynson/tuid.svg?branch=master)](https://travis-ci.org/thynson/tuid)
+[![Coverage Status](https://coveralls.io/repos/github/thynson/tuid/badge.svg)](https://coveralls.io/github/thynson/tuid)
+
 ## Introduction
 This is a variation of UUID version 1 defined in RFC4412. 
 
