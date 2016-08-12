@@ -21,6 +21,7 @@ var id = generator.generateSync();
 console.log(id.toString()); // prints: 1e660627-c30c-f010-0000-7affa0ae7874
 console.log(id.toBuffer().toString('hex')); // prints: 1e660627c30cf01000007affa0ae7874
 ```
+
 ### API
 #### Generator
 * `constructor([node: Buffer])`
@@ -36,7 +37,9 @@ console.log(id.toBuffer().toString('hex')); // prints: 1e660627c30cf01000007affa
   Generate a Identifier. The returned promise is resolved immediately, 
   unless the identifier generation is exceeding 65536000ops/1ms, in such
   situation, the promise will defer to a suitable time. 
+  
 ## Implementation Detail
+
 The identifier layout: 
 
   <table>
