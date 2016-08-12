@@ -15,8 +15,8 @@ npm install tuid
 var tuid = requier('tuid');
 var generator = tuid.Generator(); // create a generator with random node id
 var id = generator.generateSync();
-console.log(id.toString()); // prints: 00001347-c645-f034-000e-1211417da52c
-console.log(id.toBuffer().toString('hex')); // prints: 00001347c645f034000e1211417da52c
+console.log(id.toString()); // prints: 1e660627-c30c-f010-0000-7affa0ae7874
+console.log(id.toBuffer().toString('hex')); // prints: 1e660627c30cf01000007affa0ae7874
 ```
 ### API
 #### Generator
