@@ -1,7 +1,6 @@
 /// <reference path="./typings/index.d.ts" />
 import * as crypto from 'crypto';
 import * as Promise from 'bluebird';
-require('source-map-support').install();
 
 const regexp = /(.{8})(.{4})(.{4})(.{4})(.{12})/;
 const VERSION = 0xF0000000;
