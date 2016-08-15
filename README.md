@@ -64,7 +64,7 @@ The identifier layout:
 As show in above:
 
 1. the version changed to `f` to indicates that this is 
-not a standard UUID implementation as currently only v1, v3, 4 and v5 is
+not a standard UUID implementation as currently only v1, v3, v4 and v5 is
 defined. 
 
 2. Timestamp are encoded into a identifier from higher bit 
