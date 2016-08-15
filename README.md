@@ -47,7 +47,7 @@ The identifier layout:
       <td>Timestamp High 32bit</td>
       <td>Timestamp Middle 16bit</td>
       <td>Version (0xf) and Timestamp Low 12bit</td>
-      <td>Counter</td>
+      <td>Clock Sequence</td>
       <td>Node 48bit</td>
     </thead>
     <tbody>
@@ -73,10 +73,9 @@ treated as a byte string as time elapses. The definition of timestamp is
 same with the ones defined in UUID v1, which is count of 100-nanoseconds 
 since Gregorian Epoch (Oct. 15th, 1587). For system lacks of high 
 resolution timer, such as Javascript, the lower bit of timestamp can be 
-emulated by counter. 
+emulated by clock sequence. 
 
-3. Counter field replaces the clock sequence high field and clock
-sequence low field to keep it simple.
+3. Clock sequence takes two bytes(16bits) and no reserved bits.
 
 4. Node field remains same with UUID v1.
 
