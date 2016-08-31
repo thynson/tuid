@@ -1,4 +1,3 @@
-/// <reference path="./typings/index.d.ts" />
 import * as crypto from 'crypto';
 import * as Promise from 'bluebird';
 
