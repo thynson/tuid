@@ -3,4 +3,3 @@ coverage/
 docs/
 typings/
 *.yml
-*.ts
