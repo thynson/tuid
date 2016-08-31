@@ -1,6 +1,6 @@
 {
   "name": "tuid",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Timed Uniqe Identifier",
   "main": "built/index.js",
   "typings": "built/index.d.ts",
