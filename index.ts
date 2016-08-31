@@ -1,10 +1,10 @@
 import * as crypto from 'crypto';
-import * as Promise from 'bluebird';
 
 const regexp = /(.{8})(.{4})(.{4})(.{4})(.{12})/;
 const VERSION = 0xF0000000;
 const SECONDS_SINCE_GREGORIAN_EPOCH = 12219292800;
 const MAX_ID_PER_MILLISECONDS = 655360000;
+
 
 export class Generator {
     private counter: number;

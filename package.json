@@ -1,6 +1,6 @@
 {
   "name": "tuid",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Timed Uniqe Identifier",
   "main": "built/index.js",
   "typings": "built/index.d.ts",
@@ -12,6 +12,9 @@
     "test": "istanbul cover -e .ts  -x \"*.d.ts\" -x \"*.spec.ts\" node_modules/.bin/_mocha -- --compilers ts:ts-node/register test/*.ts",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
+  "engine": {
+    "node": ">4.0.0"
+  },
   "author": "LAN Xingcan",
   "license": "ISC",
   "devDependencies": {
@@ -22,8 +25,5 @@
     "ts-node": "^1.2.2",
     "typescript": "^2.0.0",
     "typings": "^1.3.2"
-  },
-  "dependencies": {
-    "bluebird": "*"
   }
 }
