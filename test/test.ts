@@ -1,9 +1,6 @@
 ///<reference path="../typings/index.d.ts" />
 import * as tuid from '../index';
 import * as assert from 'assert';
-import * as sourceMapSupport from 'source-map-support';
-sourceMapSupport.install();
-
 
 describe('TuidGenerator', function(this: Mocha) {
     it('should should return id without node id', function(this: Mocha) {

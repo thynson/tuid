@@ -2,8 +2,5 @@
   "globalDependencies": {
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
     "node": "registry:dt/node#6.0.0+20160807145350"
-  },
-  "dependencies": {
-    "source-map-support": "registry:npm/source-map-support#0.3.0+20160723033700"
   }
 }
