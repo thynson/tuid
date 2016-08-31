@@ -4,4 +4,3 @@ docs/
 typings/
 *.yml
 *.ts
-!built/*.d.ts
