@@ -5,6 +5,11 @@ const VERSION = 0xF0000000;
 const SECONDS_SINCE_GREGORIAN_EPOCH = 12219292800;
 const MAX_ID_PER_MILLISECONDS = 655360000;
 
+class GeneratorBusy extends Error {
+    constructor() {
+        super("Identifier generation is too frequently");
+    }
+}
 
 export class Generator {
     private counter: number;
@@ -27,7 +32,7 @@ export class Generator {
 
         if (milliseconds == this.lastTimestamp) {
             if (this.counter == MAX_ID_PER_MILLISECONDS)
-                throw new Error('Too many identifier generated');
+                throw new GeneratorBusy();
         } else {
             this.counter = 0;
         }
@@ -46,15 +51,16 @@ export class Generator {
 
 
     generate(): Promise<Identifier> {
-        let generation = done => {
-            try {
-                var result = this.generateSync();
-            } catch(e) {
-                return setImmediate(generation.bind(this, done));
-            }
-            done(result);
-        };
-        return new Promise<Identifier>(generation);
+        try {
+            return Promise.resolve(this.generateSync())
+        } catch (e) {
+            if (e instanceof GeneratorBusy)
+                return new Promise((done)=> {
+                    setTimeout(done, 0);
+                }).then(() => this.generate());
+            else
+                Promise.reject(e);
+        }
     }
 }
 
