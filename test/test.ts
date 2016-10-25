@@ -1,4 +1,3 @@
-///<reference path="../typings/index.d.ts" />
 import * as tuid from '../index';
 import * as assert from 'assert';
 
