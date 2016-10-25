@@ -16,9 +16,13 @@
   "engine": {
     "node": ">4.0.0"
   },
+  "peerDependencies": {
+    "bluebird": "^3.0.0"
+  },
   "author": "LAN Xingcan",
   "license": "ISC",
   "devDependencies": {
+    "bluebird": "^3.0.0",
     "coveralls": "^2.11.12",
     "mocha": "^3.0.2",
     "nyc": "^8.1.0",
