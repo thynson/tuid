@@ -1,6 +1,6 @@
 {
   "name": "tuid",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Timed Uniqe Identifier",
   "main": "built/index.js",
   "typings": "built/index.d.ts",
@@ -8,7 +8,7 @@
     "UUID"
   ],
   "scripts": {
-    "prepublish": "typings install && tsc",
+    "prepublish": "tsc",
     "test": "mocha --compilers ts:ts-node/register test/*.ts",
     "test:coverage": "nyc -e .ts -i ts-node/register mocha test/test.ts",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
